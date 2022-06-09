@@ -12,8 +12,10 @@
   },
   "dependencies": {
     "@headlessui/vue": "^1.6.4",
+    "@vee-validate/rules": "^4.5.11",
     "daisyui": "^2.15.2",
     "swiper": "^8.2.2",
+    "vee-validate": "^4.5.11",
     "vue-awesome-swiper": "^5.0.1"
   }
 }

@@ -1,19 +1,10 @@
 <template>
   <swiper :modules="modules" :pagination="{ clickable: true }">
-    <swiper-slide>
+    <swiper-slide v-for="it in items" :key="it">
       <div>
         <figure>
           <img
-            :src="`https://th.bing.com/th/id/OIP.VueUEdTMVEbhVrhu7l_EhgHaE8?pid=ImgDet&rs=1`"
-          />
-        </figure>
-      </div>
-    </swiper-slide>
-    <swiper-slide>
-      <div>
-        <figure>
-          <img
-            :src="`https://th.bing.com/th/id/OIP.VueUEdTMVEbhVrhu7l_EhgHaE8?pid=ImgDet&rs=1`"
+            :src="`http://127.0.0.1:3333/file?ffile=${it?.cover_image}`" class="w-full"
           />
         </figure>
       </div>
