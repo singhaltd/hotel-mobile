@@ -1,9 +1,8 @@
 <template>
-  <div>
-      
+  <div class="w-full">
     <div class="fixed bottom-0 w-full z-50">
       <div class="px-5 pt-3 bg-white shadow-lg">
-        <div class="flex flex-row space-x-3">
+        <div class="flex flex-row space-x-3 justify-between">
           <!-- Item #1 -->
           <div class="flex group">
             <NuxtLink to="/" class="p-3 text-gray-400 hover:text-yellow-500">
@@ -47,7 +46,10 @@
 
           <!-- Item #2 -->
           <div class="flex group">
-            <NuxtLink to="/blog" class="p-3 text-gray-400 hover:text-yellow-500">
+            <NuxtLink
+              to="/blog"
+              class="p-3 text-gray-400 hover:text-yellow-500"
+            >
               <span class="flex flex-col items-center">
                 <!-- Icon -->
                 <svg
@@ -123,7 +125,10 @@
 
           <!-- Item #5 -->
           <div class="flex group">
-            <NuxtLink to="/profile" class="p-3 text-gray-400 hover:text-yellow-500">
+            <NuxtLink
+              to="/profile"
+              class="p-3 text-gray-400 hover:text-yellow-500"
+            >
               <span class="flex flex-col items-center">
                 <!-- Icon -->
                 <svg

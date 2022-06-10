@@ -4,7 +4,7 @@
       <div>
         <figure>
           <img
-            :src="`http://127.0.0.1:4444/file?ffile=${it?.cover_image}`" class=""
+            :src="`http://127.0.0.1:4444/file?ffile=/${it?.url}`" class="w-full h-full"
           />
         </figure>
       </div>

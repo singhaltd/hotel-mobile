@@ -13,7 +13,7 @@ const LoginPage = () => {};
 
 <template>
   <div class="h-screen w-full">
-    <div class="bg-gray-800 h-screen mx-auto max-w-md">
+    <div class="bg-gray-800 h-screen mx-auto w-full">
       <div class="p-12">
         <p class="text-5xl pt-10 text-yellow-500 font-bold">
           Welcome <br />
@@ -61,15 +61,12 @@ const LoginPage = () => {};
                 w-full
               "
             />
-           
+
             <div class="w-auto text-yellow-500">eyes</div>
           </div>
-           <label class="label pl-10">
-              <VErrorMessage
-                name="password"
-                class="label-text-alt text-[red]"
-              />
-            </label>
+          <label class="label pl-10">
+            <VErrorMessage name="password" class="label-text-alt text-[red]" />
+          </label>
         </div>
         <div class="mx-12 p-3 justify-between flex">
           <div class="flex">
@@ -131,7 +128,9 @@ const LoginPage = () => {};
           </button>
           <p class="mx-auto text-center mt-3 text-gray-400">
             ຍັງບໍ່ເຄີຍມີບັນຊີ?
-            <a href="" class="text-md font-semibold">ສະມັກສະມາຊິກ</a>
+            <NuxtLink to="register" class="text-md font-semibold"
+              >ສະມັກສະມາຊິກ</NuxtLink
+            >
           </p>
         </div>
       </VForm>

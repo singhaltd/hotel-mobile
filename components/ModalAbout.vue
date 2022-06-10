@@ -1,7 +1,7 @@
 <template>
   <div>
     <input type="checkbox" id="AlerAbout" class="modal-toggle text-center" />
-    <label for="AlerAbout" class="modal modal-bottom sm:modal-middle">
+    <label for="AlerAbout" class="modal modal-bottom">
       <div class="modal-box items-center text-center">
         <svg
           xmlns="http://www.w3.org/2000/svg"
