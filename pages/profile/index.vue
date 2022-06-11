@@ -128,7 +128,7 @@ definePageMeta({});
       </div>
       <div class="px-5 mt-10">
         <!-- <button class="btn btn-primary w-full rounded-3xl">ອອກຈາກລະບົບ</button> -->
-        <button class="btn btn-primary w-full rounded-3xl">ເຂົ້າສູ່ລະບົບ</button>
+        <NuxtLink to="/login" class="btn btn-primary w-full rounded-3xl">ເຂົ້າສູ່ລະບົບ</NuxtLink>
         <p class="text-sm text-center py-5">ເວີຊັ່ນ 1.0.0</p>
       </div>
     </div>
