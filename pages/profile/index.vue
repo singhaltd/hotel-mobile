@@ -1,7 +1,10 @@
 <script setup>
-import ModalAbout from "~~/components/ModalAbout.vue";
-
-definePageMeta({});
+const token = useCookie("autKey");
+const Customer = await $fetch(`http://127.0.0.1:4444/peot/api/v1/profile`, {
+  headers: {
+    Authorization: `Bearer ${token.value}`,
+  },
+});
 </script>
 
 <template>
@@ -17,21 +20,23 @@ definePageMeta({});
 
       <div class="h-56 w-full bg-blue-400 rounded-b-3xl">
         <div class="h-1/2 w-full flex justify-between items-baseline px-3 py-5">
-          <h1 class="text-white">Profile</h1>
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            class="h-6 w-6"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="white"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="1"
-              d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"
-            />
-          </svg>
+          <NuxtLink to="/">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-6 w-6"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M11 17l-5-5m0 0l5-5m-5 5h12"
+              />
+            </svg>
+          </NuxtLink>
+          <h1 class="text-white">ໂປຣຟາຍ</h1>
         </div>
 
         <div
@@ -45,27 +50,20 @@ definePageMeta({});
             items-center
           "
         >
-          <div class="w-full h-1/2 flex justify-between items-center px-3 pt-2">
-            <div class="flex flex-col justify-center items-center">
-              <h1 class="text-gray-500 text-xs">ສຳເລັດ</h1>
-              <h1 class="text-gray-600 text-sm">340</h1>
-            </div>
-            <div class="flex flex-col justify-center items-center">
-              <h1 class="text-gray-500 text-xs">ກຳລັງດຳເນີນ</h1>
-              <h1 class="text-gray-600 text-sm">$2,004</h1>
-            </div>
-          </div>
-          <div class="w-full h-1/2 flex flex-col justify-center items-center">
-            <h1 class="text-gray-700 font-bold">Maria R.</h1>
-            <h1 class="text-gray-500 text-sm">New York, USA</h1>
+          <div
+            class="w-full h-1/2 flex flex-col justify-center items-center"
+            v-if="Customer"
+          >
+            <h1 class="text-gray-700 font-bold">
+              {{ Customer.fname }} {{ Customer.lname }}
+            </h1>
           </div>
         </div>
       </div>
       <div class="w-full mt-4">
         <div class="w-full">
           <ul class="menu bg-base-100 w-full p-2 rounded-box">
-           
-            <li>
+            <li v-if="Customer">
               <NuxtLink to="/profile/maccount">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -84,8 +82,8 @@ definePageMeta({});
                 ບັນຊີຂ້ອຍ
               </NuxtLink>
             </li>
-            <li>
-              <NuxtLink to="/profile/history">
+            <li v-if="Customer">
+              <NuxtLink :to="`/profile/history?cust=${Customer.id}`">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   class="h-5 w-5"
@@ -122,16 +120,26 @@ definePageMeta({});
                 ກ່ຽວກັບ
               </label>
             </li>
-            
           </ul>
         </div>
       </div>
       <div class="px-5 mt-10">
         <!-- <button class="btn btn-primary w-full rounded-3xl">ອອກຈາກລະບົບ</button> -->
-        <button class="btn btn-primary w-full rounded-3xl">ເຂົ້າສູ່ລະບົບ</button>
+        <NuxtLink
+          class="btn btn-primary w-full rounded-3xl"
+          to="/login"
+          v-if="!Customer"
+          >ເຂົ້າສູ່ລະບົບ</NuxtLink
+        >
+        <NuxtLink
+          class="btn btn-primary w-full rounded-3xl"
+          to="/logout"
+          v-if="Customer"
+          >ອອກຈາກລະບົບ</NuxtLink
+        >
         <p class="text-sm text-center py-5">ເວີຊັ່ນ 1.0.0</p>
       </div>
     </div>
-    <modal-about/>
+    <modal-about />
   </div>
 </template>

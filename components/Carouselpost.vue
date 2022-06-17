@@ -1,10 +1,18 @@
 <template>
-  <swiper :modules="modules" :pagination="{ clickable: true }">
+  <swiper
+    :modules="modules"
+    :pagination="{ clickable: true }"
+    :autoplay="{
+      delay: 2500,
+      disableOnInteraction: false,
+    }"
+  >
     <swiper-slide v-for="it in items" :key="it">
       <div>
         <figure>
           <img
-            :src="`http://127.0.0.1:4444/file?ffile=${it?.cover_image}`" class=""
+            :src="`http://127.0.0.1:4444/peot/file?ffile=${it?.cover_image}`"
+            class=""
           />
         </figure>
       </div>
@@ -12,7 +20,7 @@
   </swiper>
 </template>
 <script>
-import SwiperClass, { Pagination } from "swiper";
+import SwiperClass, { Pagination, Autoplay} from "swiper";
 import { Swiper, SwiperSlide } from "vue-awesome-swiper";
 import "swiper/css";
 import "swiper/css/pagination";
@@ -29,7 +37,7 @@ export default {
   },
   setup() {
     return {
-      modules: [Pagination],
+      modules: [Pagination,Autoplay],
     };
   },
 };

@@ -1,14 +1,26 @@
 
 <script setup>
 import { ref } from "vue";
-const user = ref({ usernmae: "", password: "" });
+import { setAccessToken } from "~~/auth";
+definePageMeta({
+  layout: "auth",
+});
+const user = ref({ username: "", password: "" });
 const isRequired = (value) => {
   if (value && value.trim()) {
     return true;
   }
   return "ກາລຸນາປ້ອນຂໍ້ມູນ";
 };
-const LoginPage = () => {};
+const LoginPage = async () => {
+  await $fetch("http://127.0.0.1:4444/peot/api/v1/login", {
+    method: "POST",
+    body: user.value,
+  }).then((res) => {
+    setAccessToken(res.token);
+    navigateTo("/profile");
+  });
+};
 </script>
 
 <template>
@@ -16,11 +28,8 @@ const LoginPage = () => {};
     <div class="bg-gray-800 h-screen mx-auto w-full">
       <div class="p-12">
         <p class="text-5xl pt-10 text-yellow-500 font-bold">
-          Welcome <br />
-          Back
-        </p>
-        <p class="text-xl py-3 text-gray-400 font-semibold">
-          Sign in to continue
+          LAO PEOT <br />
+          Hotel
         </p>
       </div>
       <VForm @submit="LoginPage">

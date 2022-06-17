@@ -6,23 +6,28 @@ const { pending: PRoomType, data: RoomType } = useLazyAsyncData(
   "RoomType",
   () => $fetch("/api/rooms")
 );
-const { pending, data: slide } = useLazyAsyncData("slide", () =>
-  $fetch("/api/carousel?con_type=SLI")
-);
-watch(slide, (newSlide) => {
-  // Because count starts out null, you won't have access
-  // to its contents immediately, but you can watch it.
-});
+const slide = await $fetch("/api/carousel?con_type=SLI");
+const blogs = await $fetch("/api/carousel?con_type=NEW");
+const popup = await $fetch("/api/carousel?con_type=PUP");
 </script>
 
 <template>
   <div>
-    <div class="relative text-gray-600">
+    <div class="relative text-gray-600 py-4 px-5 z-0">
       <input
         for="boxSearch"
-        class="bg-white h-10 px-5 pr-10 rounded-full text-sm focus:outline-none"
+        class="
+          bg-base-300
+          h-10
+          px-5
+          pr-10
+          rounded-full
+          w-full
+          text-sm
+          focus:outline-none
+        "
       />
-      <button type="submit" class="absolute right-0 top-0 mt-3 mr-4">
+      <button type="submit" class="absolute right-0 top-0 mt-7 mr-10">
         <svg
           class="h-4 w-4 fill-current"
           xmlns="http://www.w3.org/2000/svg"
@@ -163,91 +168,23 @@ watch(slide, (newSlide) => {
         </label>
       </div>
       <h4 class="font-semibold">ຫ້ອງພັກ ຂອງພວກເຮົາ</h4>
-      <div
-        class="
-          grid
-          m-0
-          grid-cols-2
-          space-x-4
-          overflow-y-scroll
-          flex
-          justify-center
-          items-center
-          w-full
-        "
-      >
-        <NuxtLink
-          :to="`/room/${ri.rtid}`"
-          class="
-            relative
-            flex flex-col
-            justify-between
-            bg-white
-            shadow-md
-            rounded-3xl
-            bg-cover
-            text-gray-800
-            overflow-hidden
-            cursor-pointer
-            w-full
-            object-cover object-center
-            rounded-lg
-            shadow-md
-            h-64
-            my-2
-          "
-          v-for="ri in RoomType"
-          :key="ri"
-          :style="`background-image: url('http://127.0.0.1:4444/file?ffile=/${ri.thumbnail[0]?.url}');`"
-        >
-          <!-- <div
-            class="
-              absolute
-              bg-gradient-to-t
-              from-green-400
-              to-blue-400
-              opacity-50
-              inset-0
-              z-0
-            "
-          ></div> -->
-          <div class="relative flex flex-row items-end h-72 w-full">
-            <div class="p-6 rounded-lg flex flex-col w-full z-10">
-              <h4
-                class="
-                  mt-1
-                  text-white text-md
-                  font-semibold
-                  leading-tight
-                  truncate
-                "
-              >
-                {{ ri.title }}
-              </h4>
-              <div class="flex pt-4 text-sm text-gray-300">
-                <div class="flex items-center mr-auto"></div>
-                <div class="flex items-center font-medium text-white">
-                  10000 ກີບ
-                  <span class="text-gray-300 text-sm font-normal"> /ຄືນ</span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </NuxtLink>
-      </div>
-      <h4 class="font-semibold">ຂ່າວສານ</h4>
+      <car-slide :RoomType="RoomType"> </car-slide>
+      <h4 class="font-semibold" v-if="blogs?.data.length > 0">ຂ່າວສານ</h4>
       <div class="grid grid-cols-1">
-        <div class="">
-          <div class="flex bg-white shadow-md rounded-2xl p-2">
+        <div class="" v-for="ib in blogs.data" :key="ib">
+          <NuxtLink
+            :to="`/blog/${ib.id}`"
+            class="flex bg-white shadow-md rounded-2xl p-2"
+          >
             <img
-              src="https://images.unsplash.com/photo-1439130490301-25e322d88054?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1189&q=80"
+              :src="`http://127.0.0.1:4444/file?ffile=${ib?.cover_image}`"
               alt="Just a flower"
               class="w-16 object-cover h-16 rounded-xl"
             />
             <div class="flex flex-col justify-center w-full px-2 py-1">
               <div class="flex justify-between items-center">
                 <div class="flex flex-col">
-                  <h2 class="text-sm font-medium">Massive Dynamic</h2>
+                  <h2 class="text-sm font-medium">{{ ib.title }}</h2>
                 </div>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -282,18 +219,14 @@ watch(slide, (newSlide) => {
                       d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"
                     ></path>
                   </svg>
-                  <p class="font-normal">4.5</p>
-                </div>
-                <div class="flex items-center font-medium text-gray-900">
-                  $1800
-                  <span class="text-gray-400 text-sm font-normal"> /wk</span>
                 </div>
               </div>
             </div>
-          </div>
+          </NuxtLink>
         </div>
       </div>
     </div>
     <modal-alert-not />
+    <modal-popup :itpop="popup" />
   </div>
 </template>

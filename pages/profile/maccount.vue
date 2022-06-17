@@ -1,7 +1,11 @@
 <script setup>
-import { ref } from "vue";
-const router = useRouter();
-const fdisable = ref(true);
+const fdisable = ref(false);
+const token = useCookie("autKey");
+const Customer = await $fetch(`http://127.0.0.1:4444/peot/api/v1/profile`, {
+  headers: {
+    Authorization: `Bearer ${token.value}`,
+  },
+});
 </script>
 
 <template>
@@ -23,9 +27,9 @@ const fdisable = ref(true);
           </svg>
         </a>
         <label>ບັນຊີຂ້ອຍ</label>
-        <botton class="btn" v-if="fdisable == true" @click="fdisable = false"
-          >ແກ້ໄຂ</botton
-        >
+        <button class="btn" v-if="fdisable == true" @click="fdisable = false">
+          ແກ້ໄຂ
+        </button>
       </div>
       <div class="px-5 bg-white pt-5">
         <div class="flex flex-row space-x-4 w-full text-xs">
@@ -35,7 +39,8 @@ const fdisable = ref(true);
             </label>
             <input
               type="text"
-              class="input input-bordered w-full max-w-xs"
+              v-model="Customer.fname"
+              class="input input-bordered w-full input-sm"
               :disabled="fdisable"
             />
           </div>
@@ -45,7 +50,101 @@ const fdisable = ref(true);
             </label>
             <input
               type="text"
-              class="input input-bordered w-full max-w-xs"
+              v-model="Customer.lname"
+              class="input input-bordered w-full input-sm"
+              :disabled="fdisable"
+            />
+          </div>
+        </div>
+        <div class="flex flex-row space-x-4 w-full text-xs">
+          <div class="form-control w-full">
+            <label class="label">
+              <span class="label-text">ວັນທີເດືອນປີເກີດ</span>
+            </label>
+            <input
+              type="date"
+              v-model="Customer.dob"
+              class="input input-bordered w-full input-sm"
+              :disabled="fdisable"
+            />
+          </div>
+          <div class="form-control w-full">
+            <label class="label">
+              <span class="label-text">ເພດ</span>
+            </label>
+            <input
+              type="text"
+              class="input input-bordered w-full input-sm"
+              :disabled="fdisable"
+            />
+          </div>
+        </div>
+        <div class="flex flex-row space-x-4 w-full text-xs">
+          <div class="form-control w-full">
+            <label class="label">
+              <span class="label-text">ປະເທດ</span>
+            </label>
+            <input
+              type="text"
+              class="input input-bordered w-full input-sm"
+              :disabled="fdisable"
+            />
+          </div>
+          <div class="form-control w-full">
+            <label class="label">
+              <span class="label-text">ແຂວງ</span>
+            </label>
+            <input
+              type="text"
+              class="input input-bordered w-full input-sm"
+              :disabled="fdisable"
+            />
+          </div>
+        </div>
+        <div class="flex flex-row space-x-4 w-full text-xs">
+          <div class="form-control w-full">
+            <label class="label">
+              <span class="label-text">ເມືອງ</span>
+            </label>
+            <input
+              type="text"
+              class="input input-bordered w-full input-sm"
+              :disabled="fdisable"
+            />
+          </div>
+          <!-- {{Customer}} -->
+          <div class="form-control w-full">
+            <label class="label">
+              <span class="label-text">ບ້ານ</span>
+            </label>
+            <input
+              type="text"
+              v-model="Customer.village"
+              class="input input-bordered w-full input-sm"
+              :disabled="fdisable"
+            />
+          </div>
+        </div>
+        <div class="flex flex-row space-x-4 w-full text-xs">
+          <div class="form-control w-full">
+            <label class="label">
+              <span class="label-text">email</span>
+            </label>
+            <input
+              type="text"
+              v-model="Customer.email"
+              class="input input-bordered w-full input-sm"
+              :disabled="fdisable"
+            />
+          </div>
+          <div class="form-control w-full">
+            <label class="label">
+              <span class="label-text">ເບີໂທ</span>
+            </label>
+            <input
+              type="text"
+              v-model="Customer.mobile"
+              class="input input-bordered w-full input-sm"
               :disabled="fdisable"
             />
           </div>
@@ -57,7 +156,7 @@ const fdisable = ref(true);
             </label>
             <input
               type="text"
-              class="input input-bordered w-full max-w-xs"
+              class="input input-bordered w-full input-sm"
               :disabled="fdisable"
             />
           </div>
@@ -67,81 +166,19 @@ const fdisable = ref(true);
             </label>
             <input
               type="text"
-              class="input input-bordered w-full max-w-xs"
-              :disabled="fdisable"
-            />
-          </div>
-        </div>
-        <div class="flex flex-row space-x-4 w-full text-xs">
-          <div class="form-control w-full">
-            <label class="label">
-              <span class="label-text">ຊື່ແທ້</span>
-            </label>
-            <input
-              type="text"
-              class="input input-bordered w-full max-w-xs"
-              :disabled="fdisable"
-            />
-          </div>
-          <div class="form-control w-full">
-            <label class="label">
-              <span class="label-text">ນາມສະກຸນ</span>
-            </label>
-            <input
-              type="text"
-              class="input input-bordered w-full max-w-xs"
-              :disabled="fdisable"
-            />
-          </div>
-        </div>
-        <div class="flex flex-row space-x-4 w-full text-xs">
-          <div class="form-control w-full">
-            <label class="label">
-              <span class="label-text">ຊື່ແທ້</span>
-            </label>
-            <input
-              type="text"
-              class="input input-bordered w-full max-w-xs"
-              :disabled="fdisable"
-            />
-          </div>
-          <div class="form-control w-full">
-            <label class="label">
-              <span class="label-text">ນາມສະກຸນ</span>
-            </label>
-            <input
-              type="text"
-              class="input input-bordered w-full max-w-xs"
-              :disabled="fdisable"
-            />
-          </div>
-        </div>
-        <div class="flex flex-row space-x-4 w-full text-xs">
-          <div class="form-control w-full">
-            <label class="label">
-              <span class="label-text">ຊື່ແທ້</span>
-            </label>
-            <input
-              type="text"
-              class="input input-bordered w-full max-w-xs"
-              :disabled="fdisable"
-            />
-          </div>
-          <div class="form-control w-full">
-            <label class="label">
-              <span class="label-text">ນາມສະກຸນ</span>
-            </label>
-            <input
-              type="text"
-              class="input input-bordered w-full max-w-xs"
+              class="input input-bordered w-full input-sm"
               :disabled="fdisable"
             />
           </div>
         </div>
       </div>
       <div class="px-5 mt-10">
-        <!-- <button class="btn btn-primary w-full rounded-3xl">ອອກຈາກລະບົບ</button> -->
-        <button class="btn btn-primary w-full rounded-3xl"  v-if="fdisable == false">ບັນທຶກ</button>
+        <button
+          class="btn btn-primary w-full rounded-3xl"
+          v-if="fdisable == false"
+        >
+          ບັນທຶກ
+        </button>
       </div>
     </div>
   </div>

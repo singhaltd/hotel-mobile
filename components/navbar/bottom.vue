@@ -1,11 +1,11 @@
 <template>
   <div class="w-full">
     <div class="fixed bottom-0 w-full z-50">
-      <div class="px-5 pt-3 bg-white shadow-lg">
+      <div class="px-5 bg-white shadow-lg">
         <div class="flex flex-row space-x-3 justify-between">
           <!-- Item #1 -->
           <div class="flex group">
-            <NuxtLink to="/" class="p-3 text-gray-400 hover:text-yellow-500">
+            <NuxtLink to="/" class="p-3 text-gray-400 hover:text-yellow-500 h-[32px]">
               <span class="flex flex-col items-center">
                 <!-- Icon -->
                 <svg
@@ -22,29 +22,12 @@
                     d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"
                   />
                 </svg>
-
-                <!-- Text -->
-                <span class="text-xs mb-2 transition-all duration-200">
+                <span class="text-xs transition-all duration-200">
                   ໜ້າຫຼັກ
                 </span>
-
-                <!-- Focus Dot -->
-                <span
-                  class="
-                    h-2
-                    w-2
-                    rounded-full
-                    group-hover:bg-yellow-500
-                    transition-all
-                    duration-150
-                    delay-100
-                  "
-                ></span>
               </span>
             </NuxtLink>
           </div>
-
-          <!-- Item #2 -->
           <div class="flex group">
             <NuxtLink
               to="/blog"
@@ -68,62 +51,12 @@
                 </svg>
 
                 <!-- Text -->
-                <span class="text-xs mb-2 transition-all duration-200">
+                <span class="text-xs transition-all duration-200">
                   ຂ່າວສານ
                 </span>
-
-                <!-- Focus Dot -->
-                <span
-                  class="
-                    h-2
-                    w-2
-                    rounded-full
-                    group-hover:bg-yellow-500
-                    transition-all
-                    duration-150
-                    delay-100
-                  "
-                ></span>
               </span>
             </NuxtLink>
           </div>
-          <div class="flex group">
-            <a href="#" class="p-3 text-gray-400 hover:text-yellow-500">
-              <span class="flex flex-col items-center">
-                <!-- Icon -->
-                <i
-                  class="
-                    mdi mdi-basket-plus-outline mdi-24px
-                    mx-1
-                    text-gray-500
-                    group-hover:text-gray-700
-                    transition-color
-                    duration-200
-                  "
-                ></i>
-
-                <!-- Text -->
-                <span class="text-xs mb-2 transition-all duration-200">
-                  Cart
-                </span>
-
-                <!-- Focus Dot -->
-                <span
-                  class="
-                    h-2
-                    w-2
-                    rounded-full
-                    group-hover:bg-yellow-500
-                    transition-all
-                    duration-150
-                    delay-100
-                  "
-                ></span>
-              </span>
-            </a>
-          </div>
-
-          <!-- Item #5 -->
           <div class="flex group">
             <NuxtLink
               to="/profile"
@@ -175,24 +108,10 @@
                     d="M25.5 23A1.5 1.5 0 1 0 25.5 26 1.5 1.5 0 1 0 25.5 23zM14.5 23A1.5 1.5 0 1 0 14.5 26 1.5 1.5 0 1 0 14.5 23z"
                   />
                 </svg>
-
                 <!-- Text -->
-                <span class="text-xs mb-2 transition-all duration-200">
+                <span class="text-xs transition-all duration-200">
                   ບັນຊີຂ້ອຍ
                 </span>
-
-                <!-- Focus Dot -->
-                <span
-                  class="
-                    h-2
-                    w-2
-                    rounded-full
-                    group-hover:bg-yellow-500
-                    transition-all
-                    duration-150
-                    delay-100
-                  "
-                ></span>
               </span>
             </NuxtLink>
           </div>
