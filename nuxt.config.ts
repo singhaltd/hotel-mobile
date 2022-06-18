@@ -8,6 +8,9 @@ export default defineNuxtConfig({
             BASE_URL: process.env.BASE_URL || 'http://127.0.0.1:4444/peot' // variable that can also be accessed on the client side
         }
     },
+    alias: {
+        '~/*': './*',
+    },
     build: {
         postcss: {
             postcssOptions: {

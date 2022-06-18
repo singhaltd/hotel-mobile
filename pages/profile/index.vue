@@ -1,10 +1,13 @@
 <script setup>
+const router = useRouter()
 const token = useCookie("autKey");
-const Customer = await $fetch(`http://127.0.0.1:4444/peot/api/v1/profile`, {
-  headers: {
-    Authorization: `Bearer ${token.value}`,
-  },
-});
+// const Customer = await $fetch("http://127.0.0.1:4444/peot/api/v1/profile", {
+//   headers: {
+//     Authorization: `Bearer ${token.value}`,
+//   },
+// });
+const { pending, data: Customer } = useLazyFetch('http://127.0.0.1:4444/peot/api/v1/profile')
+watch(Customer, (newPosts) => {})
 </script>
 
 <template>
@@ -20,7 +23,7 @@ const Customer = await $fetch(`http://127.0.0.1:4444/peot/api/v1/profile`, {
 
       <div class="h-56 w-full bg-blue-400 rounded-b-3xl">
         <div class="h-1/2 w-full flex justify-between items-baseline px-3 py-5">
-          <NuxtLink to="/">
+          <a @click="router.back()" class=" z-10">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               class="h-6 w-6"
@@ -35,10 +38,9 @@ const Customer = await $fetch(`http://127.0.0.1:4444/peot/api/v1/profile`, {
                 d="M11 17l-5-5m0 0l5-5m-5 5h12"
               />
             </svg>
-          </NuxtLink>
+          </a>
           <h1 class="text-white">ໂປຣຟາຍ</h1>
         </div>
-
         <div
           class="
             bg-white

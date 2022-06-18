@@ -1,10 +1,10 @@
 <template>
   <swiper :modules="modules" :pagination="{ clickable: true }">
     <swiper-slide v-for="it in items" :key="it">
-      <div>
+      <div class="z-0 h-70">
         <figure>
           <img
-            :src="`http://127.0.0.1:4444/peot/file?ffile=/${it?.url}`" class="w-full h-full"
+            :src="`http://127.0.0.1:4444/peot/file?ffile=/${it?.url}`" class="object-fill w-full" style="height:450px;"
           />
         </figure>
       </div>

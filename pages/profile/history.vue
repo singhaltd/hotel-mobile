@@ -3,7 +3,7 @@ import { ref } from "vue";
 const router = useRouter();
 const fdisable = ref(true);
 const token = useCookie("autKey");
-const BookIv = await $fetch('http://127.0.0.1:4444/peot/api/v1/history',{
+const BookIv = $fetch('http://127.0.0.1:4444/peot/api/v1/history',{
     headers: {
       Authorization: `Bearer ${token.value}`,
     },

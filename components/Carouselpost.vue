@@ -12,7 +12,7 @@
         <figure>
           <img
             :src="`http://127.0.0.1:4444/peot/file?ffile=${it?.cover_image}`"
-            class=""
+            class="object-fill"
           />
         </figure>
       </div>
