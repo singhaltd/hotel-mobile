@@ -13,14 +13,26 @@ const isRequired = (value) => {
   }
   return "ກາລຸນາປ້ອນຂໍ້ມູນ";
 };
+const AlertToast = ref({ error: false, message: "", type: "" });
 const LoginPage = async () => {
   await $fetch(`${config.BASE_URL}/api/v1/login`, {
     method: "POST",
     body: user.value,
-  }).then((res) => {
-    setAccessToken(res.token);
-    navigateTo("/profile");
-  });
+  })
+    .then((res) => {
+      setAccessToken(res.token);
+      navigateTo("/profile");
+    })
+    .catch((error) => {
+      AlertToast.value.error = true;
+      AlertToast.value.message = "ຊື່ຜູ້ໃຊ້ ແລະ ລະຫັດຜ່ານບໍ່ຖືກຕ້ອງ";
+      AlertToast.value.type = "error";
+    });
+};
+const CloseAlertToast = () => {
+  AlertToast.value.error = false;
+  AlertToast.value.message = "";
+  AlertToast.value.type = "";
 };
 </script>
 
@@ -93,5 +105,17 @@ const LoginPage = async () => {
         </div>
       </VForm>
     </div>
+    <Alertoast
+      :check="AlertToast.error"
+      :type="AlertToast.type"
+      :message="AlertToast.message"
+    >
+      <button
+        @click="CloseAlertToast"
+        class="btn btn-sm btn-circle absolute right-2 top-2"
+      >
+        ✕
+      </button>
+    </Alertoast>
   </div>
 </template>

@@ -5,7 +5,7 @@ export default defineNuxtConfig({
     runtimeConfig: {
         secretKey: '', // variable that can only be accessed on the server side
         public: {
-            BASE_URL: process.env.BASE_URL || 'http://192.168.0.101:4444/peot' // variable that can also be accessed on the client side
+            BASE_URL: process.env.BASE_URL || 'http://127.0.0.1:4444/peot' // variable that can also be accessed on the client side
         }
     },
     alias: {

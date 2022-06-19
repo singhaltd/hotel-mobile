@@ -1,8 +1,8 @@
 <script setup>
 const router = useRouter();
-const config = useRuntimeConfig().public
+const config = useRuntimeConfig().public;
 const token = useCookie("autKey");
-const url = useRuntimeConfig().public.BASE_URL
+const url = useRuntimeConfig().public.BASE_URL;
 const { pending, data: Customer } = useLazyAsyncData("Customer", () =>
   $fetch(`${config.BASE_URL}/api/v1/profile`, {
     headers: {
@@ -10,17 +10,16 @@ const { pending, data: Customer } = useLazyAsyncData("Customer", () =>
     },
   })
 );
-const refresh = () => refreshNuxtData('Customer')
+const refresh = () => refreshNuxtData("Customer");
 
-const LoginOut = ()=> {
+const LoginOut = () => {
   const token = useCookie("autKey");
-  token.value = ''
-  refresh()
-  router.back()
-
-}
+  token.value = "";
+  refresh();
+  navigateTo("/");
+};
 setTimeout(() => {
-  refresh()
+  refresh();
 }, 100);
 </script>
 
@@ -30,14 +29,30 @@ setTimeout(() => {
       <div class="h-56 w-full absolute flex justify-center items-center">
         <img
           class="object-cover h-20 w-20 rounded-full"
-          :src="!Customer || Customer?.cover=='' ? '/img/avatar.jpeg':`${url}/file?ffile=${Customer?.cover}`"
+          :src="
+            !Customer || Customer?.cover == ''
+              ? '/img/avatar.jpeg'
+              : `${url}/file?ffile=${Customer?.cover}`
+          "
           alt=""
         />
       </div>
 
       <div class="h-56 w-full bg-blue-400 rounded-b-3xl">
         <div class="h-5"></div>
-        <div class="h-1/2 w-full flex justify-between items-baseline px-3 py-5 sticky top-0">
+        <div
+          class="
+            h-1/2
+            w-full
+            flex
+            justify-between
+            items-baseline
+            px-3
+            py-5
+            sticky
+            top-0
+          "
+        >
           <a @click="router.back()" class="z-[99] cursor-pointer">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -54,7 +69,7 @@ setTimeout(() => {
               />
             </svg>
           </a>
-          
+
           <h1 class="text-white">ໂປຣຟາຍ</h1>
         </div>
         <div
@@ -152,10 +167,11 @@ setTimeout(() => {
         >
         <button
           class="btn btn-primary w-full rounded-3xl"
-         @click="LoginOut"
+          @click="LoginOut"
           v-if="Customer"
-          >ອອກຈາກລະບົບ</button
         >
+          ອອກຈາກລະບົບ
+        </button>
         <p class="text-sm text-center py-5">ເວີຊັ່ນ 1.0.0</p>
       </div>
     </div>

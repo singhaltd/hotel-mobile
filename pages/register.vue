@@ -1,25 +1,49 @@
 <script setup>
 import { ref } from "vue";
-const user = ref({ username: "", password: "",fname:"",lname:"",mobile:"",email:"",cpassword:"" });
+const config = useRuntimeConfig().public;
+const user = ref({
+  username: "",
+  password: "",
+  fname: "",
+  lname: "",
+  mobile: "",
+  email: "",
+  cpassword: "",
+});
 const isRequired = (value) => {
   if (value && value.trim()) {
     return true;
   }
   return "ກາລຸນາປ້ອນຂໍ້ມູນ";
 };
-const alertMessage = ref({error:'',isactive:false})
+const alertMessage = ref({ error: "", isactive: false });
+const AlertToast = ref({ error: false, message: "", type: "" });
 const router = useRouter();
 const fdisable = ref(true);
-const RegisterPage= async ()=> {
-  await $fetch("http://127.0.0.1:4444/api/v1/register", {
+const RegisterPage = async () => {
+  await $fetch(`${config.BASE_URL}/api/v1/register`, {
     method: "POST",
     body: user.value,
-  }).then((res) => {
-    console.log(res.error)
-    alertMessage.value.error = res.error
-    alertMessage.value.isactive = true
-  });
-}
+  })
+    .then((res) => {
+      AlertToast.value.error = true;
+      AlertToast.value.message = "ສະມັກສະມາຊິກສຳເລັດ";
+      AlertToast.value.type = "success";
+      setTimeout(() => {
+        navigateTo("/login");
+      }, 1000);
+    })
+    .catch((error) => {
+      AlertToast.value.error = true;
+      AlertToast.value.message = "ຂໍ້ມູນນີ້ມີໃນລະບົບຢູ່ແລ້ວ";
+      AlertToast.value.type = "error";
+    });
+};
+const CloseAlertToast = () => {
+  AlertToast.value.error = false;
+  AlertToast.value.message = "";
+  AlertToast.value.type = "";
+};
 </script>
 
 <template>
@@ -40,10 +64,10 @@ const RegisterPage= async ()=> {
             />
           </svg>
         </a>
-        <label>ສະມັກສະມາຊິກ {{alertMessage.error}}</label>
+        <label>ສະມັກສະມາຊິກ {{ alertMessage.error }}</label>
       </div>
-      
-      <dialog-mess  :data="alertMessage"/>
+
+      <dialog-mess :data="alertMessage" />
       <VForm @submit="RegisterPage">
         <div class="px-5 bg-white pt-5">
           <div class="form-control w-full">
@@ -152,5 +176,17 @@ const RegisterPage= async ()=> {
       </VForm>
       <div class="h-[60px]"></div>
     </div>
+    <Alertoast
+      :check="AlertToast.error"
+      :type="AlertToast.type"
+      :message="AlertToast.message"
+    >
+      <button
+        @click="CloseAlertToast"
+        class="btn btn-sm btn-circle absolute right-2 top-2"
+      >
+        ✕
+      </button>
+    </Alertoast>
   </div>
 </template>

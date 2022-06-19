@@ -1,17 +1,21 @@
 <script>
 export default {
-  props:{
-    check:{
-      type:Boolean,
-      default:false
-    }
+  props: {
+    check: {
+      type: Boolean,
+      default: false,
+    },
+    type: {
+      type: String,
+      default: "",
+    },
   },
-  methods:{
-    CloseChck(){
-      this.check = false
-    }
-  }
-}
+  methods: {
+    CloseChck() {
+      check = false;
+    },
+  },
+};
 </script>
 
 <template>
@@ -24,7 +28,11 @@ export default {
     />
     <label for="AlertLogin" class="modal modal-bottom sm:modal-middle">
       <div class="modal-box items-center text-center">
-        <label @click="CloseChck" class="btn btn-sm btn-circle absolute right-2 top-2">✕</label>
+        <label
+          @click="CloseChck"
+          class="btn btn-sm btn-circle absolute right-2 top-2"
+          >✕</label
+        >
         <svg
           xmlns="http://www.w3.org/2000/svg"
           class="h-20 w-20 mx-auto"

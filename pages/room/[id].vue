@@ -1,17 +1,19 @@
 <script setup>
-import {ref} from 'vue'
+import { ref } from "vue";
 const route = useRoute();
 const token = useCookie("autKey");
-const alertLogin = ref(false)
+const alertLogin = ref(false);
 const url = useRuntimeConfig().public.BASE_URL;
-const check = ref(false)
+const check = ref(false);
 definePageMeta({});
 const roomDetail = await $fetch(`/api/rooms?id=${route.params.id}`);
-const Booknow = (str)=> {
-  if(token.value !== ''){
-   check.value = true
+const Booknow = (str) => {
+  if (token.value === "") {
+    check.value = true;
+  } else {
+    navigateTo(`/booking?id=${str}`);
   }
-}
+};
 </script>
 <template>
   <div>
@@ -47,19 +49,7 @@ const Booknow = (str)=> {
       </a>
     </div>
     <carouselpostr :items="roomDetail.room?.thumbnail" :url="url" />
-    <div
-      class="
-        rounded-t-3xl
-        z-0
-        bg-white
-        px-5
-        pt-5
-        pb-4
-        z-50
-        absolute
-        w-full
-      "
-    >
+    <div class="rounded-t-3xl z-0 bg-white px-5 pt-5 pb-4 z-50 absolute w-full">
       <h1 class="text-2xl">{{ roomDetail.room?.title }}</h1>
       <div class="flex justify-between">
         <div></div>
@@ -76,20 +66,25 @@ const Booknow = (str)=> {
             <div class="w-full">
               <label>ລາຄາ</label>
               <p class="font-blod font-semibold">
-                {{ roomDetail.price?.price.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,') }}ກີບ/ຄືນ
+                {{
+                  roomDetail.price?.price
+                    .toFixed(2)
+                    .replace(/\d(?=(\d{3})+\.)/g, "$&,")
+                }}ກີບ/ຄືນ
               </p>
             </div>
             <div>
               <button
                 class="btn btn-primary btn-md w-32 rounded-3xl"
                 @click="Booknow(roomDetail?.room?.rtid)"
-                >ຈອງດຽວນີ້</button
               >
+                ຈອງດຽວນີ້
+              </button>
             </div>
           </div>
         </div>
       </div>
     </div>
-    <modal-alert :check="check" /> 
+    <modal-alert :check="check" />
   </div>
 </template>

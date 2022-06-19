@@ -4,23 +4,69 @@ const token = useCookie("autKey");
 const route = useRoute();
 const router = useRouter();
 const fdisable = ref(true);
-const url = useRuntimeConfig().public.BASE_URL
-const reqBook = ref({ adulth: 1, child: 0,rqty:1 ,check_in_date:'',check_out_date:'',room_type:route.query.id,pay_type:2,mtotal:0});
+const url = useRuntimeConfig().public.BASE_URL;
+const reqBook = ref({
+  adulth: 1,
+  child: 0,
+  rqty: 1,
+  check_in_date: "",
+  check_out_date: "",
+  room_type: route.query.id,
+  pay_type: 2,
+  mtotal: 0,
+  days: 0,
+});
+const AlertToast = ref({ error: false, message: "", type: "" });
 const { pending, data } = useLazyAsyncData("roomDetail", () =>
   $fetch(`/api/rooms?id=${route.query.id}`)
 );
 
 const Booking = async () => {
-  await $fetch(`${url}/api/v1/book`, {
-    method: "POST",
-    body: reqBook.value,
-    headers: {
-      Authorization: `Bearer ${token.value}`,
-    },
-  }).then((res) => {
-    setAccessToken(res.token);
-    navigateTo("/profile");
-  });
+  if (reqBook.value.days > 0 && reqBook.value.rqty > 0) {
+    await $fetch(`${url}/api/v1/book`, {
+      method: "POST",
+      body: reqBook.value,
+      headers: {
+        Authorization: `Bearer ${token.value}`,
+      },
+    }).then((res) => {
+      AlertToast.value.error = true;
+      AlertToast.value.message = "ການຈອງຂອງທ່ານສຳເລັດແລ້ວ ກາລຸນາລໍຖ້າຢືນຢືນ";
+      AlertToast.value.type = "success";
+      setTimeout(() => {
+        navigateTo("/profile");
+      }, 2000);
+    });
+  } else {
+    AlertToast.value.error = true;
+    AlertToast.value.message = "ກາລຸນາກວດສອບຈຳນວນຫ້ອງ ແລະ ວັນທີພັກ";
+    AlertToast.value.type = "error";
+  }
+};
+
+watchEffect(() => {
+  if (reqBook.value.rqty) {
+    reqBook.value.mtotal =
+      reqBook.value.rqty * data.value?.price?.price * reqBook.value.days;
+  }
+  if (reqBook.value.check_in_date || reqBook.value.check_out_date) {
+    var date1 = new Date(reqBook.value.check_in_date);
+    var date2 = new Date(reqBook.value.check_out_date);
+    var time_difference = date2.getTime() - date1.getTime();
+    var days_difference = time_difference / (1000 * 60 * 60 * 24);
+    if (days_difference == NaN) {
+      reqBook.value.days = 0;
+    } else {
+      reqBook.value.days = days_difference;
+      reqBook.value.mtotal =
+        reqBook.value.rqty * data.value?.price?.price * reqBook.value.days;
+    }
+  }
+});
+const CloseAlertToast = () => {
+  AlertToast.value.error = false;
+  AlertToast.value.message = "";
+  AlertToast.value.type = "";
 };
 </script>
 
@@ -48,13 +94,13 @@ const Booking = async () => {
         <div>
           <div class="flex bg-white shadow-md rounded-2xl p-2">
             <img
-              :src="`${url}/file?ffile=${data.room.thumbnail[0].url}`"
+              :src="`${url}/file?ffile=${data?.room?.thumbnail[0].url}`"
               alt="Just a flower"
               class="w-[50%] object-cover rounded-xl"
             />
             <div class="flex flex-col justify-center w-full px-2 py-1">
-              <p>{{ data.room.title }}</p>
-              <p>ລາຄາ {{ data.price?.price }} ຄືນ</p>
+              <p>{{ data?.room.title }}</p>
+              <p>ລາຄາ {{ data?.price?.price }} ຄືນ</p>
             </div>
           </div>
         </div>
@@ -119,6 +165,7 @@ const Booking = async () => {
                   cursor-pointer
                   outline-none
                 "
+                @click="reqBook.adulth--"
               >
                 <span class="m-auto text-2xl font-thin">−</span>
               </button>
@@ -140,6 +187,7 @@ const Booking = async () => {
                   text-gray-700
                   outline-none
                 "
+                min="1"
                 name="custom-input-number"
                 v-model="reqBook.adulth"
               />
@@ -154,6 +202,7 @@ const Booking = async () => {
                   rounded-r
                   cursor-pointer
                 "
+                @click="reqBook.adulth++"
               >
                 <span class="m-auto text-2xl font-thin">+</span>
               </button>
@@ -198,6 +247,7 @@ const Booking = async () => {
                   cursor-pointer
                   outline-none
                 "
+                @click="reqBook.child--"
               >
                 <span class="m-auto text-2xl font-thin">−</span>
               </button>
@@ -233,6 +283,7 @@ const Booking = async () => {
                   rounded-r
                   cursor-pointer
                 "
+                @click="reqBook.child++"
               >
                 <span class="m-auto text-2xl font-thin">+</span>
               </button>
@@ -277,6 +328,7 @@ const Booking = async () => {
                   cursor-pointer
                   outline-none
                 "
+                @click="reqBook.rqty--"
               >
                 <span class="m-auto text-2xl font-thin">−</span>
               </button>
@@ -312,6 +364,7 @@ const Booking = async () => {
                   rounded-r
                   cursor-pointer
                 "
+                @click="reqBook.rqty++"
               >
                 <span class="m-auto text-2xl font-thin">+</span>
               </button>
@@ -339,7 +392,11 @@ const Booking = async () => {
       <div class="px-5 mx-4 border rounded-3xl mt-4 py-3">
         <h1>ລວມລາຄາທັງໝົດ</h1>
         <div>
-          <p></p>
+          <p class="py-3">
+            ລາຄາ ({{ data?.price?.price }}) * ຈຳນວນຫ້ອງ ({{ reqBook.rqty }}) *
+            ຄືນ({{ reqBook.days }})
+          </p>
+          <p>= {{ reqBook.mtotal || 0 }} ກິບ</p>
         </div>
       </div>
 
@@ -360,11 +417,26 @@ const Booking = async () => {
       </div>
       <div class="px-5 mt-5">
         <!-- <button class="btn btn-primary w-full rounded-3xl">ອອກຈາກລະບົບ</button> -->
-        <button class="btn btn-primary btn-md w-full rounded-3xl mb-5" @click="Booking">
+        <button
+          class="btn btn-primary btn-md w-full rounded-3xl mb-5"
+          @click="Booking"
+        >
           ສັ່ງຈອງ
         </button>
       </div>
       <div class="h-30"></div>
     </div>
+    <Alertoast
+      :check="AlertToast.error"
+      :type="AlertToast.type"
+      :message="AlertToast.message"
+    >
+      <button
+        @click="CloseAlertToast"
+        class="btn btn-sm btn-circle absolute right-2 top-2"
+      >
+        ✕
+      </button>
+    </Alertoast>
   </div>
 </template>
