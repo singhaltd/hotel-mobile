@@ -6,6 +6,7 @@ const { pending: PRoomType, data: RoomType } = useLazyAsyncData(
   "RoomType",
   () => $fetch("/api/rooms")
 );
+const url = useRuntimeConfig().public.BASE_URL;
 const slide = await $fetch("/api/carousel?con_type=SLI");
 const blogs = await $fetch("/api/carousel?con_type=NEW");
 const popup = await $fetch("/api/carousel?con_type=PUP");
@@ -13,7 +14,19 @@ const popup = await $fetch("/api/carousel?con_type=PUP");
 
 <template>
   <div>
-    <div class="relative text-gray-600 py-4 px-5 z-0">
+    <div class="h-6"></div>
+    <div class="flex px-5 mt-3">
+      <img
+        src="/img/logo.png"
+        alt="Just a flower"
+        class="w-16 h-16 rounded-xl"
+      />
+      <div class="text-2xl mt-4 pl-3">
+        ໂຮງແຮມ ໂປເອັທ ລາວ
+      </div>
+    </div>
+
+    <div class="relative stick top-0 text-gray-600 py-4 px-5 z-0">
       <input
         for="boxSearch"
         class="
@@ -50,7 +63,7 @@ const popup = await $fetch("/api/carousel?con_type=PUP");
     </div>
     <div class="px-5">
       <div class="rounded-2xl max-h-40 overflow-clip">
-        <Carouselpost :items="slide.data" />
+        <Carouselpost :items="slide.data" :url="url" />
       </div>
     </div>
     <div class="p-3 space-y-4 z-0">
@@ -168,7 +181,7 @@ const popup = await $fetch("/api/carousel?con_type=PUP");
         </label>
       </div>
       <h4 class="font-semibold">ຫ້ອງພັກ ຂອງພວກເຮົາ</h4>
-      <car-slide :RoomType="RoomType"> </car-slide>
+      <car-slide :RoomType="RoomType" :url="url"> </car-slide>
       <h4 class="font-semibold" v-if="blogs?.data.length > 0">ຂ່າວສານ</h4>
       <div class="grid grid-cols-1">
         <div class="" v-for="ib in blogs.data" :key="ib">

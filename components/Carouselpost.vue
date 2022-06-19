@@ -11,7 +11,7 @@
       <div>
         <figure>
           <img
-            :src="`http://127.0.0.1:4444/peot/file?ffile=${it?.cover_image}`"
+            :src="`${url}/file?ffile=${it?.cover_image}`"
             class="object-fill"
           />
         </figure>
@@ -30,6 +30,9 @@ export default {
     items: {
       type: Object,
     },
+    url:{
+      type:String
+    }
   },
   components: {
     Swiper,

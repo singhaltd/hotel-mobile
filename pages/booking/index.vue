@@ -4,13 +4,14 @@ const token = useCookie("autKey");
 const route = useRoute();
 const router = useRouter();
 const fdisable = ref(true);
+const url = useRuntimeConfig().public.BASE_URL
 const reqBook = ref({ adulth: 1, child: 0,rqty:1 ,check_in_date:'',check_out_date:'',room_type:route.query.id,pay_type:2,mtotal:0});
 const { pending, data } = useLazyAsyncData("roomDetail", () =>
   $fetch(`/api/rooms?id=${route.query.id}`)
 );
 
 const Booking = async () => {
-  await $fetch("http://127.0.0.1:4444/peot/api/v1/book", {
+  await $fetch(`${url}/api/v1/book`, {
     method: "POST",
     body: reqBook.value,
     headers: {
@@ -41,13 +42,13 @@ const Booking = async () => {
             />
           </svg>
         </a>
-        <label>ປະຫັວດລາຍການ</label>
+        <label>ການຈອງ</label>
       </div>
       <div class="px-5">
         <div>
           <div class="flex bg-white shadow-md rounded-2xl p-2">
             <img
-              :src="`http://127.0.0.1:4444/peot/file?ffile=${data.room.thumbnail[0].url}`"
+              :src="`${url}/file?ffile=${data.room.thumbnail[0].url}`"
               alt="Just a flower"
               class="w-[50%] object-cover rounded-xl"
             />

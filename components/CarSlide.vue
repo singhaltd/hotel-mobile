@@ -32,7 +32,7 @@
           h-64
           my-2
         "
-        :style="`background-image: url('http://127.0.0.1:4444/peot/file?ffile=/${ri.thumbnail[0]?.url}');`"
+        :style="`background-image: url('${url}/file?ffile=/${ri.thumbnail[0]?.url}');`"
       >
         <div class="relative flex flex-row items-end h-72 w-full">
           <div class="p-6 rounded-lg flex flex-col w-full z-10">
@@ -81,6 +81,9 @@ export default defineComponent({
     RoomType: {
       type: Object,
     },
+    url:{
+      type:String
+    }
   },
   setup() {
     let swiperRef: SwiperClass | null = null;

@@ -4,7 +4,7 @@
       <div class="z-0 h-70">
         <figure>
           <img
-            :src="`http://127.0.0.1:4444/peot/file?ffile=/${it?.url}`" class="object-fill w-full" style="height:450px;"
+            :src="`${url}/file?ffile=/${it?.url}`" class="object-fill w-full" style="height:380px;"
           />
         </figure>
       </div>
@@ -22,6 +22,9 @@ export default {
     items: {
       type: Object,
     },
+    url:{
+      type:String
+    }
   },
   components: {
     Swiper,

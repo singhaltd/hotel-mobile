@@ -5,6 +5,7 @@ import { setAccessToken } from "~~/auth";
 definePageMeta({
   layout: "auth",
 });
+const config = useRuntimeConfig().public;
 const user = ref({ username: "", password: "" });
 const isRequired = (value) => {
   if (value && value.trim()) {
@@ -13,7 +14,7 @@ const isRequired = (value) => {
   return "ກາລຸນາປ້ອນຂໍ້ມູນ";
 };
 const LoginPage = async () => {
-  await $fetch("http://127.0.0.1:4444/peot/api/v1/login", {
+  await $fetch(`${config.BASE_URL}/api/v1/login`, {
     method: "POST",
     body: user.value,
   }).then((res) => {
@@ -33,7 +34,7 @@ const LoginPage = async () => {
         </p>
       </div>
       <VForm @submit="LoginPage">
-        <div class="mx-12 p-3 rounded-xl shadow-sm bg-gray-900">
+        <div class="mx-5 p-3 rounded-xl shadow-sm bg-gray-900">
           <div class="p-3 mx-6 border-b border-gray-500">
             <VField
               name="username"
@@ -56,7 +57,7 @@ const LoginPage = async () => {
             </label>
           </div>
 
-          <div class="p-3 mx-6 flex border-b border-gray-500">
+          <div class="p-3 mx-6 flex border-b border-gray-500 mt-5">
             <VField
               name="password"
               :rules="isRequired"
@@ -70,65 +71,13 @@ const LoginPage = async () => {
                 w-full
               "
             />
-
-            <div class="w-auto text-yellow-500">eyes</div>
           </div>
           <label class="label pl-10">
             <VErrorMessage name="password" class="label-text-alt text-[red]" />
           </label>
         </div>
-        <div class="mx-12 p-3 justify-between flex">
-          <div class="flex">
-            <div
-              class="
-                relative
-                inline-block
-                w-12
-                mr-2
-                align-middle
-                select-none
-                transition
-                duration-200
-                ease-in
-              "
-            >
-              <input
-                type="checkbox"
-                name="toggle"
-                id="toggle"
-                class="
-                  toggle-checkbox
-                  absolute
-                  block
-                  w-6
-                  h-6
-                  rounded-full
-                  bg-gray-800
-                  border-4
-                  appearance-none
-                  cursor-pointer
-                "
-              />
-              <label
-                for="toggle"
-                class="
-                  toggle-label
-                  block
-                  overflow-hidden
-                  h-6
-                  rounded-full
-                  bg-blue-500
-                  cursor-pointer
-                "
-              ></label>
-            </div>
-            <label for="toggle" class="text-xs text-gray-300 mt-1"
-              >ຈື່ຂ້ອຍໄວ້.</label
-            >
-          </div>
-        </div>
 
-        <div class="w-full p-12">
+        <div class="w-full py-10 px-5">
           <button
             type="submit"
             class="bg-blue-500 p-3 rounded-3xl w-full h-full hover:bg-blue-600"

@@ -2,20 +2,24 @@
 import { ref } from "vue";
 const router = useRouter();
 const fdisable = ref(true);
+const url = useRuntimeConfig().public.BASE_URL
 const token = useCookie("autKey");
-const BookIv = $fetch('http://127.0.0.1:4444/peot/api/v1/history',{
+const { pending, data: BookIv } = useLazyAsyncData("BookIv", () =>
+  $fetch(`${url}/api/v1/history`, {
     headers: {
       Authorization: `Bearer ${token.value}`,
     },
   })
-
+);
+const refresh = () => refreshNuxtData('BookIv')
 </script>
 
 <template>
   <div>
+    <div class="h-5"></div>
     <div class="h-56 w-full rounded-b-3xl">
       <div class="w-full flex px-3 py-5 justify-between">
-        <a @click="router.back()">
+        <a @click="router.back()" class="cursor-pointer">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             class="h-5 w-5"

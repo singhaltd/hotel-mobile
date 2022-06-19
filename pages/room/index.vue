@@ -2,6 +2,7 @@
 definePageMeta({
   layout: "auth",
 });
+const url = useRuntimeConfig().public.BASE_URL;
 const { pending: PRoomType, data: RoomType } = useLazyAsyncData(
   "RoomType",
   () => $fetch("/api/rooms")
@@ -10,6 +11,16 @@ const { pending: PRoomType, data: RoomType } = useLazyAsyncData(
 
 <template>
   <div>
+    <div class="flex px-5 mt-3">
+      <img
+        src="/img/logo.png"
+        alt="Just a flower"
+        class="w-16 h-16 rounded-xl"
+      />
+      <div class="text-2xl mt-4 pl-3">
+        ໂຮງແຮມ ໂປເອັທ ລາວ
+      </div>
+    </div>
     <div class="w-full px-5 pb-20">
       <NuxtLink
         :to="`/room/${ri.rtid}`"
@@ -28,24 +39,14 @@ const { pending: PRoomType, data: RoomType } = useLazyAsyncData(
           object-cover object-center
           rounded-lg
           shadow-md
-          h-64
+          h-40
+          mt-4
           my-2
         "
         v-for="ri in RoomType"
         :key="ri"
-        :style="`background-image: url('http://127.0.0.1:4444/file?ffile=/${ri.thumbnail[0]?.url}');`"
+        :style="`background-image: url('${url}/file?ffile=/${ri.thumbnail[0]?.url}');`"
       >
-        <!-- <div
-            class="
-              absolute
-              bg-gradient-to-t
-              from-green-400
-              to-blue-400
-              opacity-50
-              inset-0
-              z-0
-            "
-          ></div> -->
         <div class="relative flex flex-row items-end h-72 w-full">
           <div class="p-6 rounded-lg flex flex-col w-full z-10">
             <h4

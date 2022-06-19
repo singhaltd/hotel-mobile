@@ -1,18 +1,21 @@
 <script setup>
-const fdisable = ref(false);
+const fdisable = ref(true);
+const router = useRouter()
+const url = useRuntimeConfig().public.BASE_URL
 const token = useCookie("autKey");
-const Customer = await $fetch(`http://127.0.0.1:4444/peot/api/v1/profile`, {
+const Customer = await $fetch(`${url}/api/v1/profile`, {
   headers: {
     Authorization: `Bearer ${token.value}`,
   },
 });
+
 </script>
 
 <template>
   <div>
-    <div class="h-56 w-full bg-blue-400 rounded-b-3xl">
-      <div class="w-full flex px-3 py-5 justify-between">
-        <a @click="router.back()">
+    <div class="h-5"></div>
+    <div class="w-full flex px-3 py-5 justify-between">
+        <a @click="router.back()" class="flex gap-4 cursor-pointer">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             class="h-5 w-5"
@@ -25,12 +28,16 @@ const Customer = await $fetch(`http://127.0.0.1:4444/peot/api/v1/profile`, {
               clip-rule="evenodd"
             />
           </svg>
+          <label class="-mt-1">ບັນຊີຂ້ອຍ</label>
         </a>
-        <label>ບັນຊີຂ້ອຍ</label>
-        <button class="btn" v-if="fdisable == true" @click="fdisable = false">
-          ແກ້ໄຂ
-        </button>
+        
+        <div>
+          <button class="btn btn-sm btn-primary" v-if="fdisable == true" @click="fdisable = false">ແກ້ໄຂ</button>
+          <button class="btn btn-sm m-0 btn-primary" v-if="fdisable == false" @click="fdisable = true">ຍົກເລີກ</button>
+        </div>
+        
       </div>
+    <div class="h-56 w-full bg-blue-400 rounded-b-3xl">
       <div class="px-5 bg-white pt-5">
         <div class="flex flex-row space-x-4 w-full text-xs">
           <div class="form-control w-full">
@@ -44,6 +51,8 @@ const Customer = await $fetch(`http://127.0.0.1:4444/peot/api/v1/profile`, {
               :disabled="fdisable"
             />
           </div>
+        </div>
+           <div class="flex flex-row space-x-4 w-full text-xs">
           <div class="form-control w-full">
             <label class="label">
               <span class="label-text">ນາມສະກຸນ</span>
@@ -68,6 +77,8 @@ const Customer = await $fetch(`http://127.0.0.1:4444/peot/api/v1/profile`, {
               :disabled="fdisable"
             />
           </div>
+        </div>
+           <div class="flex flex-row space-x-4 w-full text-xs">
           <div class="form-control w-full">
             <label class="label">
               <span class="label-text">ເພດ</span>
@@ -90,6 +101,8 @@ const Customer = await $fetch(`http://127.0.0.1:4444/peot/api/v1/profile`, {
               :disabled="fdisable"
             />
           </div>
+        </div>
+         <div class="flex flex-row space-x-4 w-full text-xs">
           <div class="form-control w-full">
             <label class="label">
               <span class="label-text">ແຂວງ</span>
@@ -112,6 +125,8 @@ const Customer = await $fetch(`http://127.0.0.1:4444/peot/api/v1/profile`, {
               :disabled="fdisable"
             />
           </div>
+        </div>
+         <div class="flex flex-row space-x-4 w-full text-xs">
           <!-- {{Customer}} -->
           <div class="form-control w-full">
             <label class="label">
@@ -137,6 +152,8 @@ const Customer = await $fetch(`http://127.0.0.1:4444/peot/api/v1/profile`, {
               :disabled="fdisable"
             />
           </div>
+        </div>
+         <div class="flex flex-row space-x-4 w-full text-xs">
           <div class="form-control w-full">
             <label class="label">
               <span class="label-text">ເບີໂທ</span>
@@ -144,28 +161,6 @@ const Customer = await $fetch(`http://127.0.0.1:4444/peot/api/v1/profile`, {
             <input
               type="text"
               v-model="Customer.mobile"
-              class="input input-bordered w-full input-sm"
-              :disabled="fdisable"
-            />
-          </div>
-        </div>
-        <div class="flex flex-row space-x-4 w-full text-xs">
-          <div class="form-control w-full">
-            <label class="label">
-              <span class="label-text">ຊື່ແທ້</span>
-            </label>
-            <input
-              type="text"
-              class="input input-bordered w-full input-sm"
-              :disabled="fdisable"
-            />
-          </div>
-          <div class="form-control w-full">
-            <label class="label">
-              <span class="label-text">ນາມສະກຸນ</span>
-            </label>
-            <input
-              type="text"
               class="input input-bordered w-full input-sm"
               :disabled="fdisable"
             />

@@ -1,13 +1,27 @@
 <script setup>
-const router = useRouter()
+const router = useRouter();
+const config = useRuntimeConfig().public
 const token = useCookie("autKey");
-// const Customer = await $fetch("http://127.0.0.1:4444/peot/api/v1/profile", {
-//   headers: {
-//     Authorization: `Bearer ${token.value}`,
-//   },
-// });
-const { pending, data: Customer } = useLazyFetch('http://127.0.0.1:4444/peot/api/v1/profile')
-watch(Customer, (newPosts) => {})
+const url = useRuntimeConfig().public.BASE_URL
+const { pending, data: Customer } = useLazyAsyncData("Customer", () =>
+  $fetch(`${config.BASE_URL}/api/v1/profile`, {
+    headers: {
+      Authorization: `Bearer ${token.value}`,
+    },
+  })
+);
+const refresh = () => refreshNuxtData('Customer')
+
+const LoginOut = ()=> {
+  const token = useCookie("autKey");
+  token.value = ''
+  refresh()
+  router.back()
+
+}
+setTimeout(() => {
+  refresh()
+}, 100);
 </script>
 
 <template>
@@ -16,14 +30,15 @@ watch(Customer, (newPosts) => {})
       <div class="h-56 w-full absolute flex justify-center items-center">
         <img
           class="object-cover h-20 w-20 rounded-full"
-          src="https://images.unsplash.com/photo-1484608856193-968d2be4080e?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=2134&q=80"
+          :src="!Customer || Customer?.cover=='' ? '/img/avatar.jpeg':`${url}/file?ffile=${Customer?.cover}`"
           alt=""
         />
       </div>
 
       <div class="h-56 w-full bg-blue-400 rounded-b-3xl">
-        <div class="h-1/2 w-full flex justify-between items-baseline px-3 py-5">
-          <a @click="router.back()" class=" z-10">
+        <div class="h-5"></div>
+        <div class="h-1/2 w-full flex justify-between items-baseline px-3 py-5 sticky top-0">
+          <a @click="router.back()" class="z-[99] cursor-pointer">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               class="h-6 w-6"
@@ -39,6 +54,7 @@ watch(Customer, (newPosts) => {})
               />
             </svg>
           </a>
+          
           <h1 class="text-white">ໂປຣຟາຍ</h1>
         </div>
         <div
@@ -62,6 +78,7 @@ watch(Customer, (newPosts) => {})
           </div>
         </div>
       </div>
+      <!-- <button @click="refresh">Refresh</button> -->
       <div class="w-full mt-4">
         <div class="w-full">
           <ul class="menu bg-base-100 w-full p-2 rounded-box">
@@ -133,11 +150,11 @@ watch(Customer, (newPosts) => {})
           v-if="!Customer"
           >ເຂົ້າສູ່ລະບົບ</NuxtLink
         >
-        <NuxtLink
+        <button
           class="btn btn-primary w-full rounded-3xl"
-          to="/logout"
+         @click="LoginOut"
           v-if="Customer"
-          >ອອກຈາກລະບົບ</NuxtLink
+          >ອອກຈາກລະບົບ</button
         >
         <p class="text-sm text-center py-5">ເວີຊັ່ນ 1.0.0</p>
       </div>
